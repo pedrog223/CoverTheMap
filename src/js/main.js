@@ -1004,12 +1004,17 @@ function insidePolygon(lon, lat) {
  * breaks map loading.
  */
 const OVERPASS_ENDPOINTS = [
-  // "z." goes first: in practice it is the mirror that answers when the main
-  // server and "lz4." return 502 (checked November 2026); order is only a
-  // preference, the loop still falls through to the next one on any failure.
+  // Public, worldwide Overpass instances run by different organisations, so
+  // that the app keeps working when some of them are down (they often are).
+  // Order = preference (checked November 2026: the OSM-France server answered
+  // in 2-4 s while the main German pair returned 502). The loop falls through
+  // to the next one on any failure or timeout, so more entries = more resilience.
+  // Not included on purpose: overpass.osm.ch (Swiss data only).
+  "https://overpass.openstreetmap.fr/api/interpreter?data=",
   "https://z.overpass-api.de/api/interpreter?data=",
   "https://overpass-api.de/api/interpreter?data=",
   "https://lz4.overpass-api.de/api/interpreter?data=",
+  "https://overpass.kumi.systems/api/interpreter?data=",
   "https://overpass.private.coffee/api/interpreter?data=",
 ]
 
