@@ -1,0 +1,15 @@
+# dependencies and build output
+node_modules/
+dist/
+
+# editor / OS / tooling noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.claude/
+
+# personal GPS data must never be committed
+*.gpx
+*.tcx
+!examples/*.gpx

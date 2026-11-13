@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic example track (not a real activity). Use it to try
+     "Import GPX history": it is drawn over Greenwich Park, London. -->
+<gpx version="1.1" creator="CoverTheMap example" xmlns="http://www.topografix.com/GPX/1/1">
+  <trk>
+    <name>Example run</name>
+    <trkseg>
+      <trkpt lat="51.47690" lon="-0.00150"/>
+      <trkpt lat="51.47720" lon="-0.00100"/>
+      <trkpt lat="51.47750" lon="-0.00050"/>
+      <trkpt lat="51.47780" lon="0.00000"/>
+      <trkpt lat="51.47810" lon="0.00050"/>
+    </trkseg>
+  </trk>
+</gpx>

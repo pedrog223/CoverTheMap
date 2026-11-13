@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CoverTheMap — cover every street</title>
+    <meta name="description" content="Plan the shortest route that covers every street of an area (Chinese Postman / Rural Postman). Free, open source, runs in your browser." />
+
+    <style>
+      .osm-map {
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        /* opaque backdrop behind the tiles: when a tile hasn't loaded yet
+           (zoom level change) the gap shows this grey instead of the near-black
+           page background, so there is no black flash while zooming */
+        background-color: #6b7078;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      canvas {
+        margin: auto;
+      }
+      /* the p5 canvas covers OpenLayers' own zoom control, so hide it and
+         use our own buttons that sit above the canvas */
+      .ol-zoom,
+      .ol-zoomslider {
+        display: none;
+      }
+      #map-zoom {
+        position: fixed;
+        left: 10px;
+        z-index: 500;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      #map-zoom button {
+        width: 34px;
+        height: 34px;
+        font-size: 20px;
+        line-height: 1;
+        border: none;
+        border-radius: 6px;
+        background: rgba(20, 22, 26, 0.85);
+        color: #fff;
+        cursor: pointer;
+      }
+      #map-zoom button:hover {
+        background: rgba(50, 54, 62, 0.95);
+      }
+      #legend {
+        position: fixed;
+        right: 10px;
+        bottom: 48px;
+        z-index: 500;
+        display: none;
+        background: rgba(20, 22, 26, 0.9);
+        color: #eee;
+        font: 12px/1.7 sans-serif;
+        padding: 8px 14px 10px;
+        border-radius: 6px;
+        white-space: nowrap;
+      }
+      #legend b {
+        display: block;
+        margin-bottom: 2px;
+        font-size: 12px;
+      }
+      #legend .legend-row {
+        white-space: nowrap;
+      }
+      #home-coord,
+      #pick-coord {
+        position: fixed;
+        left: 10px;
+        z-index: 500;
+        background: rgba(20, 22, 26, 0.85);
+        color: #eee;
+        font: 12px sans-serif;
+        padding: 6px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        user-select: none;
+      }
+      #home-coord {
+        bottom: 10px;
+      }
+      #pick-coord {
+        bottom: 48px;
+      }
+      #home-coord:hover,
+      #pick-coord:hover {
+        background: rgba(50, 54, 62, 0.95);
+      }
+      #pick-coord.active {
+        background: rgba(70, 130, 220, 0.9);
+        color: #fff;
+      }
+      #basemap-select {
+        position: fixed;
+        right: 10px;
+        bottom: 10px;
+        z-index: 500;
+        background: rgba(20, 22, 26, 0.85);
+        color: #eee;
+        font: 12px sans-serif;
+        padding: 5px 8px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      #basemap-select option {
+        background: #14161a;
+        color: #eee;
+      }
+      /* while "Coords by map click" is armed, show a crosshair over the map
+         (whichever canvas is on top) */
+      body.picking-coord canvas,
+      body.picking-coord .ol-viewport {
+        cursor: crosshair !important;
+      }
+      #legend .sw {
+        display: inline-block;
+        vertical-align: middle;
+        width: 22px;
+        height: 6px;
+        border-radius: 2px;
+        margin-right: 6px;
+      }
+      #legend .dot {
+        display: inline-block;
+        vertical-align: middle;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin: 0 4px;
+      }
+      #legend .grad {
+        background: linear-gradient(
+          90deg,
+          hsl(0, 90%, 55%),
+          hsl(60, 90%, 50%),
+          hsl(120, 80%, 45%),
+          hsl(210, 85%, 55%)
+        );
+      }
+      #summary {
+        position: fixed;
+        top: 120px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 600;
+        display: none;
+        background: rgba(16, 18, 22, 0.96);
+        color: #eee;
+        font: 14px/1.4 sans-serif;
+        padding: 16px 20px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        max-width: 96vw;
+      }
+      #summary h3 {
+        margin: 0 0 4px;
+        text-align: center;
+        font-size: 18px;
+      }
+      #summary td.time {
+        font-size: 12px;
+        color: #9aa2ad;
+      }
+      #summary th small {
+        color: #cfa;
+      }
+      #summary .shared {
+        text-align: center;
+        color: #aaa;
+        margin-bottom: 12px;
+        font-size: 13px;
+      }
+      #summary table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      #summary th,
+      #summary td {
+        padding: 7px 12px;
+        text-align: center;
+      }
+      #summary th {
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.05);
+        user-select: none;
+        border-radius: 6px 6px 0 0;
+      }
+      #summary th small {
+        display: block;
+        font-weight: 400;
+        color: #999;
+        font-size: 11px;
+      }
+      #summary td:first-child,
+      #summary th:first-child {
+        text-align: left;
+        color: #aaa;
+        cursor: default;
+        background: none;
+      }
+      #summary .col.active {
+        background: rgba(70, 130, 220, 0.35);
+        outline: 1px solid rgba(120, 170, 255, 0.7);
+      }
+      #summary .metric {
+        font-size: 19px;
+        font-weight: 600;
+        color: #ff8c42;
+      }
+      #summary .hint {
+        text-align: center;
+        color: #888;
+        font-size: 12px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body style="background-color: #14161a">
+    <header id="header">
+      <nav class="navbar navbar-expand-sm bg-body-tertiary border-bottom">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+            <img
+              src="assets/logolarge.png"
+              width="40"
+              alt="Logo"
+              class="d-inline-block align-text-top"
+            />
+            CoverTheMap
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+              <li class="nav-item">
+                <a class="nav-link" href="."
+                  ><span data-i18n="nav.restart">Restart</span></a
+                >
+              </li>
+              <li class="nav-item">
+                <button type="button" class="btn btn-outline-info btn-sm ms-2 mt-1" id="restore-session" style="display: none"
+                  data-i18n-title="nav.restore.title" data-i18n="nav.restore">
+                  ↩ Restore previous area
+                </button>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="btn btn-outline-secondary btn-sm ms-2 mt-1" id="import-gpx-button" data-i18n="nav.importGpx">
+                  Import GPX history
+                </button>
+                <input type="file" id="gpx-file-input" accept=".gpx,.tcx" multiple class="d-none" />
+                <button type="button" class="btn btn-outline-secondary btn-sm ms-2 mt-1" id="trim-run-button" data-i18n="nav.trimRun" data-i18n-title="nav.trimRun.title">
+                  Remove ridden streets
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-sm ms-2 mt-1" id="draw-street-button"
+                  data-i18n-title="nav.draw.title" data-i18n="nav.draw">
+                  ✏️ Draw streets
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-sm ms-2 mt-1" id="play-route-button" data-i18n="nav.play">
+                  Play route
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-sm ms-2 mt-1" id="export-video-button" data-i18n="nav.exportVideo">
+                  Export video
+                </button>
+              </li>
+            </ul>
+            <a
+              class="nav-link"
+              href="https://github.com/pedrog223/cover-the-map"
+              target="_blank" rel="noopener"
+              data-i18n="nav.source">Source code</a
+            >
+            <select id="lang-select" class="form-select form-select-sm ms-2" style="width: auto" data-i18n-title="nav.language" title="Language">
+              <option value="en">English</option>
+              <option value="es">Español</option>
+            </select>
+          </div>
+        </div>
+      </nav>
+      <div class="container-fluid bg-body-secondary py-2">
+        <div class="d-flex justify-content-center align-items-center flex-wrap gap-2">
+          <input type="text" id="start-coord" class="form-control form-control-sm" style="max-width: 160px"
+            data-i18n-placeholder="opt.start" data-i18n-title="opt.start.title" placeholder="Start lat, lon" />
+          <input type="text" id="end-coord" class="form-control form-control-sm" style="max-width: 160px"
+            data-i18n-placeholder="opt.end" data-i18n-title="opt.end.title" placeholder="End lat, lon" />
+          <div class="form-check form-switch me-3" data-i18n-title="opt.parks.title">
+            <input class="form-check-input" type="checkbox" role="switch" id="ignore-parks-toggle" />
+            <label class="form-check-label" for="ignore-parks-toggle" data-i18n="opt.parks">Ignore parks</label>
+          </div>
+          <button type="button" class="btn btn-primary" id="action-button" disabled>
+            <span class="spinner-border spinner-border-sm d-none" aria-hidden="true"></span>
+            <span role="status" data-i18n="action.createPolygon">Create a polygon, then click here</span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <div id="OSMmap" class="osm-map"></div>
+    <div id="map-zoom">
+      <button type="button" id="map-zoom-in" data-i18n-aria="map.zoomIn" aria-label="Zoom in">+</button>
+      <button type="button" id="map-zoom-out" data-i18n-aria="map.zoomOut" aria-label="Zoom out">&minus;</button>
+    </div>
+    <div id="pick-coord" data-i18n-title="map.pick.title" data-i18n="map.pick">
+      🎯 Coords by map click
+    </div>
+    <div id="home-coord" data-i18n-title="map.locate.title" data-i18n="map.locate">
+      📍 My location — click to copy
+    </div>
+    <select id="basemap-select" data-i18n-title="map.basemap.title">
+      <option value="osm" data-i18n="map.base.osm">OpenStreetMap</option>
+      <option value="esristreet" data-i18n="map.base.esristreet">Street map (Esri)</option>
+      <option value="cyclosm" data-i18n="map.base.cyclosm">Cycling (CyclOSM)</option>
+      <option value="opentopo" data-i18n="map.base.opentopo">Topographic</option>
+      <option value="satellite" data-i18n="map.base.satellite">Satellite (Esri)</option>
+      <option value="sentinel2" data-i18n="map.base.sentinel2">Satellite (Sentinel-2)</option>
+    </select>
+    <div id="summary">
+      <h3 data-i18n="sum.title">Route summary</h3>
+      <div class="shared" id="summary-shared">—</div>
+      <div id="summary-body"></div>
+      <div class="hint" data-i18n="sum.hint">Click a column to choose it: the highlighted one is drawn and downloaded.</div>
+    </div>
+    <div id="legend">
+      <b data-i18n="legend.streets">Streets</b>
+      <div class="legend-row"><span class="sw" style="background: hsl(78, 100%, 50%)"></span> <span data-i18n="legend.toCover">To cover</span></div>
+      <div class="legend-row"><span class="sw" style="background: hsl(0, 100%, 50%)"></span> <span data-i18n="legend.ridden">Already ridden (GPX)</span></div>
+      <div class="legend-row"><span class="sw" style="background: #888"></span> <span data-i18n="legend.discarded">Discarded / access</span></div>
+      <b style="margin-top: 6px" data-i18n="legend.route">Route</b>
+      <div class="legend-row"><span class="sw grad"></span> <span data-i18n="legend.order">Order: start → end</span></div>
+      <div class="legend-row"><span class="dot" style="background: hsl(0, 100%, 50%)"></span> <span data-i18n="legend.start">Start</span> &nbsp; <span class="dot" style="background: hsl(210, 100%, 55%)"></span> <span data-i18n="legend.end">End</span></div>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>
