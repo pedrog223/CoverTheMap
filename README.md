@@ -31,6 +31,14 @@ browser: no account, no server, no tracking.
 - Several base maps (streets, cycling, topographic, satellite).
 - English and Spanish interface (English by default), with a built-in welcome guide.
 
+### Screenshots
+
+| 1. Welcome guide | 2. Streets loaded |
+|---|---|
+| ![Welcome window with the steps](docs/images/01-welcome.jpg) | ![Streets downloaded for the drawn area](docs/images/02-streets-loaded.jpg) |
+| **3. Trim streets and choose start** | **4. Compare routes and download** |
+| ![Trimmed streets shown in grey](docs/images/03-trim-streets.jpg) | ![Route summary with four routes](docs/images/04-route-summary.jpg) |
+
 ### Using it
 
 Read the **[user guide](docs/USAGE.md)** (5-step tour, every button, recipes).
@@ -106,6 +114,14 @@ cuenta, sin servidor, sin seguimiento.
 - Guarda y restaura tu sesión; reproduce o exporta una animación de la ruta.
 - Varios mapas base (calles, ciclismo, topográfico, satélite).
 - Interfaz en español e inglés.
+
+### Capturas
+
+| 1. Guía de bienvenida | 2. Calles cargadas |
+|---|---|
+| ![Ventana de bienvenida con los pasos](docs/images/01-welcome.jpg) | ![Calles descargadas de la zona dibujada](docs/images/02-streets-loaded.jpg) |
+| **3. Recortar calles y elegir salida** | **4. Comparar rutas y descargar** |
+| ![Calles recortadas en gris](docs/images/03-trim-streets.jpg) | ![Resumen con cuatro rutas](docs/images/04-route-summary.jpg) |
 
 ### Uso
 
