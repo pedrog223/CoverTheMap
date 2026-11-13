@@ -1004,9 +1004,12 @@ function insidePolygon(lon, lat) {
  * breaks map loading.
  */
 const OVERPASS_ENDPOINTS = [
+  // "z." goes first: in practice it is the mirror that answers when the main
+  // server and "lz4." return 502 (checked November 2026); order is only a
+  // preference, the loop still falls through to the next one on any failure.
+  "https://z.overpass-api.de/api/interpreter?data=",
   "https://overpass-api.de/api/interpreter?data=",
   "https://lz4.overpass-api.de/api/interpreter?data=",
-  "https://z.overpass-api.de/api/interpreter?data=",
   "https://overpass.private.coffee/api/interpreter?data=",
 ]
 

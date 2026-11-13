@@ -1,4 +1,6 @@
-# CoverTheMap 🧹🗺️
+<img src="public/assets/logo.svg" alt="CoverTheMap logo" width="72" align="right" />
+
+# CoverTheMap
 
 **Plan the shortest route that runs (or rides) every street of an area.**
 *Planifica la ruta más corta que recorre todas las calles de una zona.*

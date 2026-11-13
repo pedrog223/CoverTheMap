@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
 
     <title>CoverTheMap — cover every street</title>
     <meta name="description" content="Plan the shortest route that covers every street of an area (Chinese Postman / Rural Postman). Free, open source, runs in your browser." />
@@ -54,28 +55,32 @@
       #map-zoom button:hover {
         background: rgba(50, 54, 62, 0.95);
       }
-      /* Phase-dependent toolbar buttons: solid black when usable so they stand
-         out from the grey bar, dim outline when not available yet. */
-      .btn-tool {
-        background: #000;
-        border: 1px solid #adb5bd;
-        color: #fff;
+      /* Phase-dependent toolbar buttons (".btn.btn-tool" is deliberately more specific
+         than Bootstrap, whose CSS is injected after this block): bright when usable so they stand out
+         from the dark bar, dim dashed outline when not available yet. */
+      .btn.btn-tool {
+        background: #f8f9fa;
+        border: 1px solid #ffffff;
+        color: #212529;
+        font-weight: 500;
       }
-      .btn-tool:hover,
-      .btn-tool:focus {
-        background: #1c1f23;
-        border-color: #fff;
-        color: #fff;
+      .btn.btn-tool:hover,
+      .btn.btn-tool:focus {
+        background: #ffffff;
+        border-color: #ffffff;
+        color: #000000;
       }
-      .btn-tool.active {
-        background: #0b5ed7;
-        border-color: #0b5ed7;
+      .btn.btn-tool.active {
+        background: #0d6efd;
+        border-color: #0d6efd;
+        color: #ffffff;
       }
-      .btn-tool:disabled {
+      .btn.btn-tool:disabled {
         background: transparent;
-        border: 1px solid #495057;
+        border: 1px dashed #5c656e;
         color: #7b838b;
-        opacity: 0.7;
+        opacity: 0.6;
+        font-weight: 400;
       }
       /* two-line label: "Restore previous area" / "(N trimmed)" */
       #restore-session {
@@ -262,7 +267,7 @@
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
             <img
-              src="assets/logolarge.png"
+              src="assets/logo.svg"
               width="40"
               alt="Logo"
               class="d-inline-block align-text-top"
