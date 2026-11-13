@@ -119,6 +119,44 @@ const MESSAGES = {
     "report.allLength": "Total length of all roads",
     "report.finalLength": "Length of final route",
     "report.efficiency": "Efficiency",
+    "nav.help":
+      "? Help",
+    "welcome.title":
+      "Welcome to CoverTheMap",
+    "welcome.intro":
+      "Plan the shortest route that covers every street of an area, then download it as a GPX file for your watch or phone.",
+    "welcome.stepsTitle":
+      "How to use it",
+    "welcome.step1":
+      "Draw the area. Click points on the map to draw a polygon around your town or neighbourhood; double-click to close it. Then press the blue button at the top.",
+    "welcome.step2":
+      "Wait for the streets. They are downloaded from OpenStreetMap; it can take up to a minute when the server is busy.",
+    "welcome.step3":
+      "Choose start and end. Click a street junction to start, then another one to finish (or the same one again to make a loop). You can also type coordinates in the two boxes at the top; they may be outside the area.",
+    "welcome.step4":
+      "Trim the streets (optional). Click any street you do not want to cover; it turns grey. Right-click a grey street to bring it back. You can also import your GPX history to remove the streets you have already run.",
+    "welcome.step5":
+      "Compute and download. Press the blue button, compare the four routes in the table, click a column to choose one, and press Download route (.gpx).",
+    "welcome.controlsTitle":
+      "What is what",
+    "welcome.mouse":
+      "Mouse: left-click selects (points, junctions, streets to trim); right-click restores a trimmed street; drag to move the map; scroll wheel or the + / − buttons to zoom.",
+    "welcome.topBar":
+      "Top bar: Import GPX history and Remove ridden streets (skip streets you already ran), Draw streets (add a missing street), Play route / Export video (animate the result), Ignore parks (leave out paths and footways), and the Start / End coordinate boxes.",
+    "welcome.bottom":
+      "On the map: Coords by map click copies the coordinates of a point you click; My location copies where you are; the selector at the bottom right changes the map style.",
+    "welcome.more":
+      "Full guide:",
+    "welcome.guideLink":
+      "user guide",
+    "welcome.creditsLink":
+      "credits",
+    "welcome.disclaimer":
+      "This is an amateur hobby project by pedrog223. It works well for me, but it may contain errors and the map data can be incomplete: always check that a route is safe before running or riding it. It is based on RunEveryStreet by solipsia and clementh44.",
+    "welcome.dontShow":
+      "Don't show this again",
+    "welcome.start":
+      "Start",
   },
 
   es: {
@@ -216,10 +254,48 @@ const MESSAGES = {
     "report.allLength": "Longitud total de calles",
     "report.finalLength": "Longitud de la ruta final",
     "report.efficiency": "Eficiencia",
+    "nav.help":
+      "? Ayuda",
+    "welcome.title":
+      "Bienvenido a CoverTheMap",
+    "welcome.intro":
+      "Planifica la ruta más corta que recorre todas las calles de una zona y descárgala como archivo GPX para tu reloj o móvil.",
+    "welcome.stepsTitle":
+      "Cómo se usa",
+    "welcome.step1":
+      "Dibuja la zona. Pulsa puntos en el mapa para dibujar un polígono alrededor de tu pueblo o barrio; doble clic para cerrarlo. Luego pulsa el botón azul de arriba.",
+    "welcome.step2":
+      "Espera a las calles. Se descargan de OpenStreetMap; puede tardar hasta un minuto si el servidor está ocupado.",
+    "welcome.step3":
+      "Elige salida y meta. Pulsa un cruce para empezar y otro para terminar (o el mismo otra vez para hacer un circuito). También puedes escribir coordenadas en las dos casillas de arriba; pueden estar fuera de la zona.",
+    "welcome.step4":
+      "Recorta calles (opcional). Pulsa las calles que no quieras cubrir; se ponen grises. Clic derecho sobre una calle gris la recupera. También puedes importar tu historial GPX para quitar las calles que ya has corrido.",
+    "welcome.step5":
+      "Calcula y descarga. Pulsa el botón azul, compara las cuatro rutas de la tabla, pulsa una columna para elegirla y pulsa Descargar ruta (.gpx).",
+    "welcome.controlsTitle":
+      "Qué es cada cosa",
+    "welcome.mouse":
+      "Ratón: el clic izquierdo selecciona (puntos, cruces, calles a recortar); el clic derecho recupera una calle recortada; arrastra para mover el mapa; rueda o botones + / − para el zoom.",
+    "welcome.topBar":
+      "Barra superior: Importar historial GPX y Quitar calles ya corridas (omiten calles ya hechas), Dibujar calles (añade una calle que falta), Reproducir ruta / Exportar vídeo (animan el resultado), Ignorar parques (deja fuera caminos y sendas) y las casillas de coordenadas de salida / meta.",
+    "welcome.bottom":
+      "En el mapa: Coordenadas con clic copia las coordenadas del punto que pulses; Mi ubicación copia dónde estás; el selector de abajo a la derecha cambia el estilo del mapa.",
+    "welcome.more":
+      "Guía completa:",
+    "welcome.guideLink":
+      "guía de uso",
+    "welcome.creditsLink":
+      "créditos",
+    "welcome.disclaimer":
+      "Es un proyecto de afición, amateur, de pedrog223. A mí me funciona bien, pero puede tener errores y los datos del mapa pueden estar incompletos: comprueba siempre que una ruta sea segura antes de correrla o recorrerla en bici. Está basado en RunEveryStreet de solipsia y clementh44.",
+    "welcome.dontShow":
+      "No volver a mostrar",
+    "welcome.start":
+      "Empezar",
   },
 }
 
-/** Picks the initial language: saved choice, else browser language, else English. */
+/** Picks the initial language: the saved choice, otherwise English. */
 function detectLanguage() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY)
@@ -227,8 +303,7 @@ function detectLanguage() {
   } catch (e) {
     /* storage unavailable — ignore */
   }
-  const browser = (navigator.language || "en").slice(0, 2).toLowerCase()
-  return SUPPORTED.includes(browser) ? browser : "en"
+  return "en" // English by default; the selector in the nav bar changes it
 }
 
 let currentLanguage = detectLanguage()

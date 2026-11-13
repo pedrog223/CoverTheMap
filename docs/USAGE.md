@@ -53,6 +53,7 @@ length ÷ route length; 100 % means no street is repeated) and *Compute time*.
 
 | Control | What it does |
 |---------|--------------|
+| **? Help** | Reopens the welcome window with the quick steps |
 | **Restart** | Starts over (reloads the page) |
 | **↩ Restore previous area** | Reloads your last polygon, start/end and trimmed streets (saved automatically in your browser) |
 | **Import GPX history** | Choose one or more `.gpx`/`.tcx` files of runs you already did. Streets they cover are marked red |

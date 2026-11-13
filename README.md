@@ -29,7 +29,7 @@ browser: no account, no server, no tracking.
 - Trim streets you don't want, draw streets missing from the map, ignore parks.
 - Save/restore your session, play/export an animation of the route.
 - Several base maps (streets, cycling, topographic, satellite).
-- English and Spanish interface.
+- English and Spanish interface (English by default), with a built-in welcome guide.
 
 ### Using it
 

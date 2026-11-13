@@ -30,7 +30,7 @@ import TileLayer from "ol/layer/Tile"
 import Draw from "ol/interaction/Draw"
 import { fromLonLat, toLonLat, transformExtent } from "ol/proj"
 import { defaults, ZoomSlider } from "ol/control"
-import "bootstrap"
+import { Modal } from "bootstrap"
 import "bootstrap/dist/css/bootstrap.min.css"
 import 'ol/ol.css'
 import p5 from "p5"
@@ -357,6 +357,7 @@ export var polygonminX = Infinity,
 
 function init() {
       applyTranslations()
+      setupWelcomeWindow()
       const langSelect = document.querySelector("#lang-select")
       langSelect.value = getLanguage()
       langSelect.addEventListener("change", () => setLanguage(langSelect.value))
@@ -1780,6 +1781,36 @@ function populateSummary() {
       }
     })
   })
+}
+
+/**
+ * The welcome / how-to window. It opens on every visit unless the user ticked
+ * "Don't show this again" (remembered in localStorage), and can always be
+ * reopened with the "Help" button.
+ */
+function setupWelcomeWindow() {
+  const WELCOME_KEY = "coverthemap.hideWelcome"
+  const element = document.querySelector("#welcome-modal")
+  const dontShow = document.querySelector("#welcome-dont-show")
+  const modal = new Modal(element)
+  let hidden = false
+  try {
+    hidden = localStorage.getItem(WELCOME_KEY) === "1"
+  } catch (e) {
+    /* storage unavailable: just show the window */
+  }
+  dontShow.checked = hidden
+  element.addEventListener("hidden.bs.modal", function () {
+    try {
+      localStorage.setItem(WELCOME_KEY, dontShow.checked ? "1" : "0")
+    } catch (e) {
+      /* ignore */
+    }
+  })
+  document.querySelector("#help-button").addEventListener("click", () => modal.show())
+  if (!hidden) {
+    modal.show()
+  }
 }
 
 /** Areas above this size (km²) trigger a one-time warning before downloading. */

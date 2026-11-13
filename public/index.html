@@ -260,6 +260,9 @@
                 >
               </li>
               <li class="nav-item">
+                <button type="button" class="btn btn-outline-light btn-sm ms-2 mt-1" id="help-button" data-i18n="nav.help">? Help</button>
+              </li>
+              <li class="nav-item">
                 <button type="button" class="btn btn-outline-info btn-sm ms-2 mt-1" id="restore-session" style="display: none"
                   data-i18n-title="nav.restore.title" data-i18n="nav.restore">
                   ↩ Restore previous area
@@ -348,6 +351,48 @@
       <b style="margin-top: 6px" data-i18n="legend.route">Route</b>
       <div class="legend-row"><span class="sw grad"></span> <span data-i18n="legend.order">Order: start → end</span></div>
       <div class="legend-row"><span class="dot" style="background: hsl(0, 100%, 50%)"></span> <span data-i18n="legend.start">Start</span> &nbsp; <span class="dot" style="background: hsl(210, 100%, 55%)"></span> <span data-i18n="legend.end">End</span></div>
+    </div>
+
+    <!-- Welcome / how-to window, shown on entry (and from the "Help" button) -->
+    <div class="modal fade" id="welcome-modal" tabindex="-1" aria-labelledby="welcome-title" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="welcome-title" data-i18n="welcome.title">Welcome to CoverTheMap</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p data-i18n="welcome.intro"></p>
+            <h6 data-i18n="welcome.stepsTitle"></h6>
+            <ol>
+              <li data-i18n="welcome.step1"></li>
+              <li data-i18n="welcome.step2"></li>
+              <li data-i18n="welcome.step3"></li>
+              <li data-i18n="welcome.step4"></li>
+              <li data-i18n="welcome.step5"></li>
+            </ol>
+            <h6 data-i18n="welcome.controlsTitle"></h6>
+            <ul>
+              <li data-i18n="welcome.mouse"></li>
+              <li data-i18n="welcome.topBar"></li>
+              <li data-i18n="welcome.bottom"></li>
+            </ul>
+            <p>
+              <span data-i18n="welcome.more"></span>
+              <a href="https://github.com/pedrog223/CoverTheMap/blob/main/docs/USAGE.md" target="_blank" rel="noopener" data-i18n="welcome.guideLink"></a> ·
+              <a href="https://github.com/pedrog223/CoverTheMap/blob/main/CREDITS.md" target="_blank" rel="noopener" data-i18n="welcome.creditsLink"></a>
+            </p>
+            <p class="small text-body-secondary mb-0" data-i18n="welcome.disclaimer"></p>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="welcome-dont-show" />
+              <label class="form-check-label" for="welcome-dont-show" data-i18n="welcome.dontShow"></label>
+            </div>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-i18n="welcome.start"></button>
+          </div>
+        </div>
+      </div>
     </div>
     <script src="main.js"></script>
   </body>

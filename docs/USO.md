@@ -54,6 +54,7 @@ Filas: *Longitud de la ruta*, *Desnivel positivo* (subida total), *Eficiencia*
 
 | Control | Qué hace |
 |---------|----------|
+| **? Ayuda** | Vuelve a abrir la ventana de bienvenida con los pasos |
 | **Reiniciar** | Empieza de cero |
 | **↩ Restaurar zona anterior** | Recarga tu último polígono, salida/meta y calles recortadas (se guarda solo en tu navegador) |
 | **Importar historial GPX** | Elige archivos `.gpx`/`.tcx` de carreras ya hechas. Las calles que cubren se marcan en rojo |
