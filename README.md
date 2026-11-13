@@ -37,7 +37,7 @@ Read the **[user guide](docs/USAGE.md)** (5-step tour, every button, recipes).
 
 ### Run it locally
 
-You need [Node.js](https://nodejs.org) 18 or newer.
+You need [Node.js](https://nodejs.org) 22 or newer.
 
 ```bash
 npm install
@@ -114,7 +114,7 @@ recetas).
 
 ### Ejecutar en local
 
-Necesitas [Node.js](https://nodejs.org) 18 o superior.
+Necesitas [Node.js](https://nodejs.org) 22 o superior.
 
 ```bash
 npm install
