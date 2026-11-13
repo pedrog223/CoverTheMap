@@ -3,8 +3,8 @@
 ## Set-up
 
 ```bash
-git clone https://github.com/pedrog223/cover-the-map.git
-cd cover-the-map
+git clone https://github.com/pedrog223/CoverTheMap.git
+cd CoverTheMap
 npm install
 npm start          # dev server with auto-reload at http://localhost:8080
 npm test           # unit tests (Node's built-in test runner, no extra tools)

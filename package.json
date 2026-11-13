@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pedrog223/cover-the-map.git"
+    "url": "git+https://github.com/pedrog223/CoverTheMap.git"
   },
   "author": "pedrog223",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/pedrog223/cover-the-map/issues"
+    "url": "https://github.com/pedrog223/CoverTheMap/issues"
   },
-  "homepage": "https://pedrog223.github.io/cover-the-map/",
+  "homepage": "https://pedrog223.github.io/CoverTheMap/",
   "dependencies": {
     "bootstrap": "^5.3.3",
     "ol": "^9.0.0",

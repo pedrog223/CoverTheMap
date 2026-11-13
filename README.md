@@ -15,7 +15,7 @@ OpenStreetMap, and it finds the shortest route that covers all of them. Export
 the result as a **GPX** file for your watch or phone. Everything runs in your
 browser: no account, no server, no tracking.
 
-**Live site:** https://pedrog223.github.io/cover-the-map/
+**Live site:** https://pedrog223.github.io/CoverTheMap/
 
 ### Features
 
@@ -91,7 +91,7 @@ OpenStreetMap y calcula la ruta más corta que las cubre todas. El resultado se
 exporta como **GPX** para tu reloj o móvil. Todo se ejecuta en tu navegador: sin
 cuenta, sin servidor, sin seguimiento.
 
-**Web:** https://pedrog223.github.io/cover-the-map/
+**Web:** https://pedrog223.github.io/CoverTheMap/
 
 ### Características
 
