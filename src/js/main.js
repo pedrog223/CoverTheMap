@@ -358,6 +358,9 @@ export var polygonminX = Infinity,
 function init() {
       applyTranslations()
       setupWelcomeWindow()
+      // keep the toolbar buttons in step with the workflow phase
+      updateToolbarState()
+      setInterval(updateToolbarState, 250)
       const langSelect = document.querySelector("#lang-select")
       langSelect.value = getLanguage()
       langSelect.addEventListener("change", () => setLanguage(langSelect.value))
@@ -1781,6 +1784,35 @@ function populateSummary() {
       }
     })
   })
+}
+
+/**
+ * Enables each toolbar button only in the phase where it makes sense:
+ *   - Import GPX history ........ before the streets are loaded (choose-map phase)
+ *   - Remove ridden streets ..... once the streets are loaded, until the route is made
+ *   - Draw streets .............. only while trimming (it needs the street graph)
+ *   - Play route / Export video . once a route exists (download phase)
+ * Runs a few times per second (cheap), so it never misses a mode change.
+ */
+function updateToolbarState() {
+  const streetsLoaded =
+    mode == selectnodemode ||
+    mode == selectendmode ||
+    mode == trimmode ||
+    mode == brushmode
+  const state = {
+    "#import-gpx-button": mode == choosemapmode,
+    "#trim-run-button": streetsLoaded,
+    "#draw-street-button": mode == trimmode || mode == brushmode,
+    "#play-route-button": mode == downloadGPXmode,
+    "#export-video-button": mode == downloadGPXmode,
+  }
+  for (const selector in state) {
+    const button = document.querySelector(selector)
+    if (button && button.disabled === state[selector]) {
+      button.disabled = !state[selector]
+    }
+  }
 }
 
 /**

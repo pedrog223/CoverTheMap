@@ -23,7 +23,7 @@ const MESSAGES = {
     "nav.restore": "↩ Restore previous area",
     "nav.restore.title":
       "Reload the area, start/end and trimmed streets from your previous session",
-    "nav.restoreN": "↩ Restore previous area ({n} trimmed)",
+    "nav.restoreN": "↩ Restore previous area\n({n} trimmed)",
     "nav.importGpx": "Import GPX history",
     "nav.gpxCount": "GPX: {n} tracks",
     "nav.trimRun": "Remove ridden streets",
@@ -164,7 +164,7 @@ const MESSAGES = {
     "nav.restore": "↩ Restaurar zona anterior",
     "nav.restore.title":
       "Recarga la zona, la salida/meta y las calles recortadas de tu sesión anterior",
-    "nav.restoreN": "↩ Restaurar zona anterior ({n} recortadas)",
+    "nav.restoreN": "↩ Restaurar zona anterior\n({n} recortadas)",
     "nav.importGpx": "Importar historial GPX",
     "nav.gpxCount": "GPX: {n} recorridos",
     "nav.trimRun": "Quitar calles ya corridas",

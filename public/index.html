@@ -54,6 +54,34 @@
       #map-zoom button:hover {
         background: rgba(50, 54, 62, 0.95);
       }
+      /* Phase-dependent toolbar buttons: solid black when usable so they stand
+         out from the grey bar, dim outline when not available yet. */
+      .btn-tool {
+        background: #000;
+        border: 1px solid #adb5bd;
+        color: #fff;
+      }
+      .btn-tool:hover,
+      .btn-tool:focus {
+        background: #1c1f23;
+        border-color: #fff;
+        color: #fff;
+      }
+      .btn-tool.active {
+        background: #0b5ed7;
+        border-color: #0b5ed7;
+      }
+      .btn-tool:disabled {
+        background: transparent;
+        border: 1px solid #495057;
+        color: #7b838b;
+        opacity: 0.7;
+      }
+      /* two-line label: "Restore previous area" / "(N trimmed)" */
+      #restore-session {
+        white-space: pre-line;
+        line-height: 1.2;
+      }
       #legend {
         position: fixed;
         right: 10px;
@@ -260,30 +288,30 @@
                 >
               </li>
               <li class="nav-item">
-                <button type="button" class="btn btn-outline-info btn-sm ms-2 mt-1 text-nowrap" id="restore-session" style="display: none"
+                <button type="button" class="btn btn-outline-info btn-sm ms-2 mt-1" id="restore-session" style="display: none"
                   data-i18n-title="nav.restore.title" data-i18n="nav.restore">
                   ↩ Restore previous area
                 </button>
               </li>
               <li class="nav-item">
-                <button type="button" class="btn btn-outline-secondary btn-sm ms-2 mt-1" id="import-gpx-button" data-i18n="nav.importGpx">
+                <button type="button" class="btn btn-tool btn-sm ms-2 mt-1" id="import-gpx-button" disabled data-i18n="nav.importGpx">
                   Import GPX history
                 </button>
                 <input type="file" id="gpx-file-input" accept=".gpx,.tcx" multiple class="d-none" />
-                <button type="button" class="btn btn-outline-secondary btn-sm ms-2 mt-1" id="trim-run-button" data-i18n="nav.trimRun" data-i18n-title="nav.trimRun.title">
+                <button type="button" class="btn btn-tool btn-sm ms-2 mt-1" id="trim-run-button" disabled data-i18n="nav.trimRun" data-i18n-title="nav.trimRun.title">
                   Remove ridden streets
                 </button>
-                <button type="button" class="btn btn-outline-secondary btn-sm ms-2 mt-1" id="draw-street-button"
+                <button type="button" class="btn btn-tool btn-sm ms-2 mt-1" id="draw-street-button" disabled
                   data-i18n-title="nav.draw.title" data-i18n="nav.draw">
                   ✏️ Draw streets
                 </button>
                 <!-- second row of buttons: keeps the top row short so "Source code" never wraps -->
                 <br />
                 <button type="button" class="btn btn-outline-light btn-sm ms-2 mt-1 text-nowrap" id="help-button" data-i18n="nav.help">? Help</button>
-                <button type="button" class="btn btn-outline-secondary btn-sm ms-2 mt-1" id="play-route-button" data-i18n="nav.play">
+                <button type="button" class="btn btn-tool btn-sm ms-2 mt-1" id="play-route-button" disabled data-i18n="nav.play">
                   Play route
                 </button>
-                <button type="button" class="btn btn-outline-secondary btn-sm ms-2 mt-1" id="export-video-button" data-i18n="nav.exportVideo">
+                <button type="button" class="btn btn-tool btn-sm ms-2 mt-1" id="export-video-button" disabled data-i18n="nav.exportVideo">
                   Export video
                 </button>
               </li>
